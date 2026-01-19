@@ -6,6 +6,7 @@ import CalendarManagement from './components/CalendarManagement';
 import EnhancedDocumentManagement from './components/EnhancedDocumentManagement';
 import PhotoDocumentation from './components/PhotoDocumentation';
 import MapManagement from './components/MapManagement';
+import InteractiveMap from './components/InteractiveMap';
 import { Toaster } from './components/ui/sonner';
 import './App.css';
 
