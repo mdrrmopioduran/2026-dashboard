@@ -119,6 +119,13 @@ export const Dashboard = ({ onOpenModule }) => {
       icon: Globe, 
       gradient: 'from-red-500 to-red-600',
       hover: 'hover:from-red-600 hover:to-red-700'
+    },
+    { 
+      id: 'panorama', 
+      label: 'Panorama', 
+      icon: Image, 
+      gradient: 'from-indigo-500 to-indigo-600',
+      hover: 'hover:from-indigo-600 hover:to-indigo-700'
     }
   ];
 
