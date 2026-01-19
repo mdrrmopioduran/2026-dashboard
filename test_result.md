@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the MDRRMO Pio Duran File Management Dashboard with comprehensive visual, layout, header, sidebar, module card, bottom bar, dark mode, animation, and responsive tests"
+user_problem_statement: "Create a new module for interactive map quick access button, use leaflet/openstreetmap and add advance tools to interact the map"
 
 frontend:
   - task: "Dashboard Layout and Visual Components"
