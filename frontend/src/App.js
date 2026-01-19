@@ -7,6 +7,7 @@ import EnhancedDocumentManagement from './components/EnhancedDocumentManagement'
 import PhotoDocumentation from './components/PhotoDocumentation';
 import MapManagement from './components/MapManagement';
 import InteractiveMap from './components/InteractiveMap';
+import PanoramaGallery from './components/PanoramaGallery';
 import { Toaster } from './components/ui/sonner';
 import './App.css';
 
