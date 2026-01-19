@@ -9,15 +9,18 @@ import {
   Grid3x3,
   Maximize2,
   Download,
-  Eye
+  Eye,
+  AlertCircle
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card, CardContent } from './ui/card';
 import { Skeleton } from './ui/skeleton';
 import { toast } from 'sonner';
+import { getImagesFromFolder, isApiKeyConfigured } from '../services/googleDriveService';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+const PANORAMA_FOLDER_ID = '1tsbcsTEfg5RLHLJLYXR41avy9SrajsqM';
 
 // Loading skeleton with shimmer
 const ImageCardSkeleton = () => (
