@@ -35,7 +35,7 @@ export const App = () => {
         case 'calendar':
           return <CalendarManagement onBack={handleBackToDashboard} />;
         case 'documents':
-          return <EnhancedDocumentManagement onBack={handleBackToDashboard} />;
+          return <DocumentManagement onBack={handleBackToDashboard} />;
         case 'photos':
           return <PhotoDocumentation onBack={handleBackToDashboard} />;
         case 'maps':
