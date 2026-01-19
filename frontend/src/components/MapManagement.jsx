@@ -200,11 +200,12 @@ const MapManagement = ({ onBack }) => {
   const fetchMaps = async (folderId) => {
     setMapsLoading(true);
     try {
-      const response = await axios.get(`${BACKEND_URL}/api/maps/files/${folderId}`);
-      setMaps(response.data);
+      // Use direct Google Drive API
+      const files = await listFilesInFolder(folderId);
+      setMaps(files);
     } catch (error) {
       console.error('Error fetching maps:', error);
-      toast.error('Failed to load maps');
+      toast.error(`Failed to load maps: ${error.message}`);
       setMaps([]);
     } finally {
       setMapsLoading(false);
