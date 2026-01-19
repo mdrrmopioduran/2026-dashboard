@@ -35,12 +35,22 @@ const SupplyInventory = ({ onBack }) => {
   const fetchSupplies = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(`${BACKEND_URL}/api/supply/items`);
-      setSupplies(response.data);
-      toast.success(`Loaded ${response.data.length} items successfully!`);
+      
+      // Check if API key is configured
+      if (!isApiKeyConfigured()) {
+        toast.error('Google Sheets API key not configured. Please add REACT_APP_GOOGLE_SHEETS_API_KEY to .env file');
+        setSupplies([]);
+        return;
+      }
+      
+      // Fetch directly from Google Sheets
+      const data = await getSupplyItems();
+      setSupplies(data);
+      toast.success(`Loaded ${data.length} items from Google Sheets!`);
     } catch (error) {
       console.error('Error fetching supplies:', error);
-      toast.error('Failed to load supply items');
+      toast.error(error.message || 'Failed to load supply items from Google Sheets');
+      setSupplies([]);
     } finally {
       setIsLoading(false);
     }
