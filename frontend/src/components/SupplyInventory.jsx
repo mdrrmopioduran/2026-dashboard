@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Plus, Pencil, Trash2, Package, MapPin, Hash, Tags, TrendingUp, AlertTriangle, CheckCircle, Box } from 'lucide-react';
+import { ArrowLeft, Plus, Pencil, Trash2, Package, MapPin, Hash, Tags, TrendingUp, AlertTriangle, CheckCircle, Box, Cloud, CloudOff } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -9,9 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { toast } from 'sonner';
 import { Header } from './Header';
 import { BackgroundBlobs } from './BackgroundBlobs';
-import axios from 'axios';
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+import { getSupplyItems, isApiKeyConfigured } from '../services/googleSheetsService';
 
 const SupplyInventory = ({ onBack }) => {
   const [supplies, setSupplies] = useState([]);
