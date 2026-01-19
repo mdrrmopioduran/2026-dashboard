@@ -448,8 +448,8 @@ async def fetch_folders_recursive(service, parent_id: str, current_path: str = "
         raise HTTPException(status_code=500, detail=f"Failed to fetch folders: {str(e)}")
 
 @api_router.get("/documents/folders")
-async def get_folder_structure():
-    """Get the complete folder structure from Google Drive"""
+async def get_folder_structure(max_depth: int = 3):
+    """Get the folder structure from Google Drive with configurable depth"""
     try:
         service = get_drive_service()
         
@@ -459,8 +459,8 @@ async def get_folder_structure():
             fields='id, name, modifiedTime, owners'
         ).execute())()
         
-        # Fetch all nested folders
-        children = await fetch_folders_recursive(service, DRIVE_FOLDER_ID, "")
+        # Fetch nested folders with depth limit
+        children = await fetch_folders_recursive(service, DRIVE_FOLDER_ID, "", max_depth=max_depth)
         
         folder_structure = {
             'id': root_folder['id'],
