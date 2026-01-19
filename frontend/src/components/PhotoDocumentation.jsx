@@ -1,0 +1,380 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import axios from 'axios';
+import { 
+  Image as ImageIcon, 
+  Search, 
+  RefreshCw, 
+  ArrowLeft,
+  X
+} from 'lucide-react';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Card, CardContent } from './ui/card';
+import { Skeleton } from './ui/skeleton';
+import { ScrollArea } from './ui/scroll-area';
+import { toast } from 'sonner';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import FolderTreeItem from './DocumentManagement/FolderTreeItem';
+import PhotoCard from './PhotoDocumentation/PhotoCard';
+import ImagePreviewModal from './PhotoDocumentation/ImagePreviewModal';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+
+// Loading skeleton
+const PhotoCardSkeleton = () => (
+  <Card className="bg-white dark:bg-gray-800">
+    <CardContent className="p-4">
+      <Skeleton className="h-48 mb-3 rounded-lg" />
+      <Skeleton className="h-4 mb-2" />
+      <Skeleton className="h-3 mb-3 w-2/3" />
+      <Skeleton className="h-3 mb-2" />
+      <Skeleton className="h-3 mb-3" />
+      <div className="flex gap-2">
+        <Skeleton className="h-8 flex-1" />
+        <Skeleton className="h-8 flex-1" />
+        <Skeleton className="h-8 w-10" />
+      </div>
+    </CardContent>
+  </Card>
+);
+
+const PhotoDocumentation = ({ onBack }) => {
+  const [folderStructure, setFolderStructure] = useState(null);
+  const [selectedFolderId, setSelectedFolderId] = useState(null);
+  const [selectedFolderName, setSelectedFolderName] = useState('');
+  const [photos, setPhotos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [photosLoading, setPhotosLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterType, setFilterType] = useState('all');
+  const [filterOwner, setFilterOwner] = useState('all');
+  const [previewPhoto, setPreviewPhoto] = useState(null);
+  const [previewModalOpen, setPreviewModalOpen] = useState(false);
+
+  // Fetch folder structure
+  const fetchFolderStructure = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/photos/folders`);
+      setFolderStructure(response.data);
+      // Auto-select root folder
+      setSelectedFolderId(response.data.id);
+      setSelectedFolderName(response.data.name);
+      fetchPhotos(response.data.id);
+    } catch (error) {
+      console.error('Error fetching folder structure:', error);
+      toast.error('Failed to load folder structure');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch photos in a folder
+  const fetchPhotos = async (folderId) => {
+    setPhotosLoading(true);
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/photos/files/${folderId}`);
+      setPhotos(response.data);
+    } catch (error) {
+      console.error('Error fetching photos:', error);
+      toast.error('Failed to load photos');
+      setPhotos([]);
+    } finally {
+      setPhotosLoading(false);
+    }
+  };
+
+  // Handle folder selection
+  const handleSelectFolder = (folderId, folderName) => {
+    setSelectedFolderId(folderId);
+    setSelectedFolderName(folderName);
+    fetchPhotos(folderId);
+  };
+
+  // Handle refresh
+  const handleRefresh = () => {
+    toast.info('Refreshing folder structure...');
+    fetchFolderStructure();
+  };
+
+  // Handle preview
+  const handlePreview = (photo) => {
+    setPreviewPhoto(photo);
+    setPreviewModalOpen(true);
+  };
+
+  // Handle download
+  const handleDownload = (link, fileName) => {
+    if (link) {
+      const a = document.createElement('a');
+      a.href = link;
+      a.download = fileName;
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      toast.success('Download started');
+    } else {
+      toast.error('Download link not available');
+    }
+  };
+
+  // Handle share
+  const handleShare = async (photoId) => {
+    try {
+      const response = await axios.post(`${BACKEND_URL}/api/documents/share/${photoId}`);
+      if (response.data.success) {
+        // Copy to clipboard
+        navigator.clipboard.writeText(response.data.shareLink);
+        toast.success('Share link copied to clipboard!');
+      }
+    } catch (error) {
+      console.error('Error creating share link:', error);
+      toast.error('Failed to create share link');
+    }
+  };
+
+  // Filter photos based on search and filters
+  const filteredPhotos = useMemo(() => {
+    let result = photos;
+
+    // Search filter
+    if (searchQuery) {
+      result = result.filter(photo =>
+        photo.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Image type filter
+    if (filterType !== 'all') {
+      result = result.filter(photo => {
+        const mimeType = photo.mimeType.toLowerCase();
+        switch (filterType) {
+          case 'jpeg':
+            return mimeType.includes('jpeg') || mimeType.includes('jpg');
+          case 'png':
+            return mimeType.includes('png');
+          case 'gif':
+            return mimeType.includes('gif');
+          case 'webp':
+            return mimeType.includes('webp');
+          default:
+            return true;
+        }
+      });
+    }
+
+    // Owner filter
+    if (filterOwner !== 'all') {
+      result = result.filter(photo => photo.owner === filterOwner);
+    }
+
+    return result;
+  }, [photos, searchQuery, filterType, filterOwner]);
+
+  // Get unique owners for filter
+  const uniqueOwners = useMemo(() => {
+    const owners = [...new Set(photos.map(photo => photo.owner))];
+    return owners.sort();
+  }, [photos]);
+
+  useEffect(() => {
+    fetchFolderStructure();
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="flex h-screen">
+        {/* Sidebar */}
+        <div className="w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+          {/* Sidebar Header */}
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex items-center gap-3 mb-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onBack}
+                data-testid="back-to-dashboard-btn"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleRefresh}
+                disabled={loading}
+                data-testid="refresh-folders-btn"
+              >
+                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+              </Button>
+            </div>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">
+              Photo Folders
+            </h2>
+          </div>
+
+          {/* Folder Tree */}
+          <ScrollArea className="flex-1 p-4">
+            {loading ? (
+              <div className="space-y-2">
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-10 w-full" />
+              </div>
+            ) : folderStructure ? (
+              <FolderTreeItem
+                folder={folderStructure}
+                selectedFolderId={selectedFolderId}
+                onSelectFolder={handleSelectFolder}
+              />
+            ) : (
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                No folders available
+              </p>
+            )}
+          </ScrollArea>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col">
+          {/* Header */}
+          <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br from-pink-500 to-purple-600">
+                <ImageIcon className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                  Photo Documentation
+                </h1>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {selectedFolderName || 'Select a folder'}
+                </p>
+              </div>
+            </div>
+
+            {/* Search and Filters */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              {/* Search */}
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Input
+                  placeholder="Search photos..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 pr-10"
+                  data-testid="search-photos-input"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+
+              {/* Image Type Filter */}
+              <Select value={filterType} onValueChange={setFilterType}>
+                <SelectTrigger className="w-full sm:w-48" data-testid="filter-type-select">
+                  <SelectValue placeholder="Image Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Types</SelectItem>
+                  <SelectItem value="jpeg">JPEG/JPG</SelectItem>
+                  <SelectItem value="png">PNG</SelectItem>
+                  <SelectItem value="gif">GIF</SelectItem>
+                  <SelectItem value="webp">WebP</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {/* Owner Filter */}
+              <Select value={filterOwner} onValueChange={setFilterOwner}>
+                <SelectTrigger className="w-full sm:w-48" data-testid="filter-owner-select">
+                  <SelectValue placeholder="Owner" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Owners</SelectItem>
+                  {uniqueOwners.map(owner => (
+                    <SelectItem key={owner} value={owner}>
+                      {owner}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Results Count */}
+            <div className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+              {photosLoading ? (
+                'Loading...'
+              ) : (
+                <>
+                  Showing {filteredPhotos.length} of {photos.length} photo{photos.length !== 1 ? 's' : ''}
+                  {searchQuery && ` matching "${searchQuery}"`}
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Photo Grid */}
+          <ScrollArea className="flex-1">
+            <div className="p-6">
+              {photosLoading ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {[...Array(8)].map((_, i) => (
+                    <PhotoCardSkeleton key={i} />
+                  ))}
+                </div>
+              ) : filteredPhotos.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-16">
+                  <div className="w-24 h-24 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-4">
+                    <ImageIcon className="w-12 h-12 text-gray-400 dark:text-gray-600" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                    No photos found
+                  </h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 text-center max-w-md">
+                    {searchQuery
+                      ? `No photos match your search "${searchQuery}"`
+                      : 'This folder does not contain any photos yet'}
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {filteredPhotos.map(photo => (
+                    <PhotoCard
+                      key={photo.id}
+                      photo={photo}
+                      onPreview={handlePreview}
+                      onDownload={handleDownload}
+                      onShare={handleShare}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </ScrollArea>
+        </div>
+      </div>
+
+      {/* Image Preview Modal */}
+      <ImagePreviewModal
+        photo={previewPhoto}
+        open={previewModalOpen}
+        onClose={() => setPreviewModalOpen(false)}
+        onDownload={handleDownload}
+      />
+    </div>
+  );
+};
+
+export default PhotoDocumentation;
