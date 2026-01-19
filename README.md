@@ -54,10 +54,15 @@ The dashboard includes 6 interactive module cards:
    - Media files
    - Documentation
 
-6. **Maps** (Teal)
-   - Map viewer
-   - Locations
-   - Offline maps
+6. **Interactive Map** (Teal)
+   - Interactive Leaflet/OpenStreetMap integration
+   - Drawing tools (markers, polylines, polygons, circles)
+   - Measurement tools (distance, area calculation)
+   - Search and geocoding
+   - Geolocation support
+   - Multiple base layers (OpenStreetMap, Satellite, Topographic)
+   - Fullscreen mode
+   - Coordinate display
 
 ### 🎯 Interactive Features
 - **Module Cards** - Clickable cards with hover effects and toast notifications
