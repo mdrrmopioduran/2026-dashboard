@@ -16,7 +16,8 @@ import {
   CloudRainWind,
   ShoppingCart,
   Globe,
-  Star
+  Star,
+  Image
 } from 'lucide-react';
 
 const modules = [
