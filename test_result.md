@@ -262,6 +262,55 @@ test_plan:
   test_all: false
   test_priority: "high_first"
 
+backend:
+  - task: "Maps Module - Categories API Endpoint"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED: GET /api/maps/categories endpoint working correctly. Successfully returns 5 map categories (administrative, topographic, hazard, mgb, mpdc) with proper structure containing 'name' and 'folder_id' fields for each category."
+
+  - task: "Maps Module - Folder Structure API Endpoint"
+    implemented: true
+    working: false
+    file: "/app/backend/server.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL FAILURE: GET /api/maps/folders/{folder_id} endpoint failing with 'invalid_grant: Invalid JWT Signature' error. Google Drive service account authentication is broken. All folder structure requests return HTTP 520 error. Root cause: Service account JSON key has invalid/corrupted JWT signature - requires new service account key generation from Google Cloud Console."
+
+  - task: "Maps Module - Files Retrieval API Endpoint"
+    implemented: true
+    working: false
+    file: "/app/backend/server.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL FAILURE: GET /api/maps/files/{folder_id} endpoint failing with same Google Drive authentication error. Cannot retrieve map files from any folder due to 'invalid_grant: Invalid JWT Signature' error. Same root cause as folder structure endpoint."
+
+  - task: "Maps Module - Search API Endpoint"
+    implemented: true
+    working: false
+    file: "/app/backend/server.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL FAILURE: GET /api/maps/search endpoint failing with Google Drive authentication error. Cannot search for map files due to 'invalid_grant: Invalid JWT Signature' error. Same authentication issue affects all Google Drive dependent endpoints."
+
 agent_communication:
   - agent: "testing"
     message: "Starting comprehensive testing of MDRRMO Pio Duran File Management Dashboard. Will test all visual components, interactions, animations, and responsive behavior as requested."
@@ -271,3 +320,5 @@ agent_communication:
     message: "Implemented new Interactive Map module with Leaflet/OpenStreetMap integration. Features: drawing tools (markers, lines, polygons, circles), measurement tools (distance/area calculation), search/geocoding, geolocation, fullscreen mode, multiple base layers, coordinate display. Quick access button on dashboard now navigates to full-page interactive map. Ready for testing."
   - agent: "main"
     message: "Dependencies installed successfully (pip for backend, yarn for frontend). All services running. Starting testing workflow: will test backend Maps API endpoints first (GET /api/maps/categories, /api/maps/folders/{folder_id}, /api/maps/files/{folder_id}, /api/maps/search), then proceed to frontend Interactive Map module testing if backend passes."
+  - agent: "testing"
+    message: "🚨 CRITICAL BACKEND ISSUE FOUND: Maps Module Backend APIs are failing due to Google Drive service account authentication error. Only the categories endpoint works (returns hardcoded data). All other endpoints (folders, files, search) fail with 'invalid_grant: Invalid JWT Signature' error. The service account JSON key at /app/backend/service_account.json has a corrupted/expired private key. This requires generating a new service account key from Google Cloud Console (IAM & Admin > Service Accounts > Keys > Create new key). Until fixed, Maps Module cannot access Google Drive folders or files."
