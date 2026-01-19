@@ -162,7 +162,7 @@ export const Dashboard = ({ onOpenModule }) => {
                       <div className="h-1 flex-1 bg-gradient-to-r from-purple-500/50 via-cyan-500/50 to-transparent rounded-full" />
                     </h2>
                     
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-5">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 sm:gap-5">
                       {quickAccessItems.map((item, index) => {
                         const Icon = item.icon;
                         return (
