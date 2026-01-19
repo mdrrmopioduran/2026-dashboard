@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { 
   Image as ImageIcon, 
   Search, 
@@ -19,7 +18,6 @@ import { Skeleton } from './ui/skeleton';
 import { toast } from 'sonner';
 import { getImagesFromFolder, isApiKeyConfigured } from '../services/googleDriveService';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 const PANORAMA_FOLDER_ID = '1tsbcsTEfg5RLHLJLYXR41avy9SrajsqM';
 
 // Loading skeleton with shimmer
