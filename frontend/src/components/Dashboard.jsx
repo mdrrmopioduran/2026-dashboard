@@ -171,6 +171,8 @@ export const Dashboard = ({ onOpenModule }) => {
                             onClick={() => {
                               if (item.id === 'interactive-map') {
                                 onOpenModule('interactive-map');
+                              } else if (item.id === 'panorama') {
+                                onOpenModule('panorama');
                               } else {
                                 toast.info(`${item.label} - Coming soon!`);
                               }
