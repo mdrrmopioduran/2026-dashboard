@@ -267,22 +267,26 @@ Follows 4px scale:
 - Header stacks elements on smaller screens
 - Cards maintain readability at all sizes
 
-## 💡 Mock Data & Interactions
+## 💡 Application Features
 
-This is a **frontend-only prototype** with mock functionality:
+### Backend API
+- ✅ RESTful API with FastAPI
+- ✅ MongoDB integration for data persistence
+- ✅ Google Drive API integration for Maps Module
+- ✅ CORS support for frontend communication
+- ✅ Async operations with Motor
 
-### Mock Features
-- ✅ Module data stored in `Dashboard.jsx` component
+### Frontend Functionality
+- ✅ Full-stack integration with backend API
+- ✅ Interactive Map with Leaflet/OpenStreetMap
+- ✅ Supply Inventory with live stats and stock tracking
+- ✅ Contact Directory with search and filtering
+- ✅ Calendar Management with timeline visualization
+- ✅ Document Management with Google Drive integration
+- ✅ Photo Documentation module
 - ✅ Dark mode toggle (using React state)
-- ✅ Toast notifications for button clicks
-- ✅ Online status indicator (mock state)
-- ✅ All UI interactions work without backend
-
-### What's NOT Included
-- ❌ No backend API
-- ❌ No database integration
-- ❌ No actual data persistence
-- ❌ No authentication system
+- ✅ Toast notifications for user feedback
+- ✅ Responsive design across all devices
 
 ## 🧪 Testing
 
