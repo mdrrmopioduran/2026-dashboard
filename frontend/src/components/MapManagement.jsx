@@ -254,6 +254,21 @@ const MapManagement = ({ onBack }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-cyan-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-500">
+      {/* API Key Warning Banner */}
+      {!isApiKeyConfigured() && (
+        <div className="bg-amber-500/90 backdrop-blur-sm border-b border-amber-600 px-6 py-3 sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto flex items-center gap-3 text-white">
+            <AlertCircle className="w-5 h-5 flex-shrink-0" />
+            <div className="flex-1">
+              <p className="font-medium">Google Drive API Key Not Configured</p>
+              <p className="text-sm text-amber-100">
+                Add REACT_APP_GOOGLE_DRIVE_API_KEY to your .env file to enable map browsing.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+      
       {/* Header */}
       <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl shadow-sm border-b border-teal-100 dark:border-gray-700 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4">
