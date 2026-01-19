@@ -222,6 +222,21 @@ const PanoramaGallery = ({ onBack }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-indigo-900/20 dark:to-purple-900/20 relative overflow-hidden">
+      {/* API Key Warning Banner */}
+      {!isApiKeyConfigured() && (
+        <div className="bg-amber-500/90 backdrop-blur-sm border-b border-amber-600 px-6 py-3 sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto flex items-center gap-3 text-white">
+            <AlertCircle className="w-5 h-5 flex-shrink-0" />
+            <div className="flex-1">
+              <p className="font-medium">Google Drive API Key Not Configured</p>
+              <p className="text-sm text-amber-100">
+                Add REACT_APP_GOOGLE_DRIVE_API_KEY to your .env file to view panorama images.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+      
       {/* Animated background blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-0 w-96 h-96 bg-indigo-300/30 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
