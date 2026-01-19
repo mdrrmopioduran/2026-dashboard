@@ -65,11 +65,22 @@ const CalendarManagement = ({ onBack }) => {
   const fetchEvents = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(`${BACKEND_URL}/api/event/items`);
-      setEvents(response.data);
+      
+      // Check if API key is configured
+      if (!isApiKeyConfigured()) {
+        toast.error('Google Sheets API key not configured. Please add REACT_APP_GOOGLE_SHEETS_API_KEY to .env file');
+        setEvents([]);
+        return;
+      }
+      
+      // Fetch directly from Google Sheets
+      const data = await getEventItems();
+      setEvents(data);
+      toast.success(`Loaded ${data.length} events from Google Sheets!`);
     } catch (error) {
       console.error('Error fetching events:', error);
-      toast.error('Failed to load events');
+      toast.error(error.message || 'Failed to load events from Google Sheets');
+      setEvents([]);
     } finally {
       setIsLoading(false);
     }
