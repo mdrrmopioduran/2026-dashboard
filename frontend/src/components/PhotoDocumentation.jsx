@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import axios from 'axios';
 import { 
   Image as ImageIcon, 
   Search, 
@@ -27,8 +26,6 @@ import FolderTreeItem from './DocumentManagement/FolderTreeItem';
 import PhotoCard from './PhotoDocumentation/PhotoCard';
 import ImagePreviewModal from './PhotoDocumentation/ImagePreviewModal';
 import { getFolderStructure, getImagesFromFolder, isApiKeyConfigured } from '../services/googleDriveService';
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 // Default Photo Documentation folder ID - update this with your actual folder ID
 const PHOTOS_ROOT_FOLDER_ID = '1XiPmUx8UZN5gdABHxHY2FI4AOz9Jney1';
 
