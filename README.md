@@ -325,11 +325,19 @@ To convert this prototype into a full application:
 
 ## 📝 Environment Variables
 
-Current `.env` configuration:
+### Backend (.env)
 ```env
+MONGO_URL=mongodb://localhost:27017/mdrrmo_db
+```
+
+### Frontend (.env)
+```env
+REACT_APP_BACKEND_URL=http://localhost:8001
 WDS_SOCKET_PORT=443
 ENABLE_HEALTH_CHECK=false
 ```
+
+**Important**: Never modify URLs or ports in .env files - they are configured for the deployment environment.
 
 ## 🤝 Contributing
 
