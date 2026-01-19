@@ -9,7 +9,8 @@ import {
   ChevronRight,
   ChevronDown,
   Folder,
-  FolderOpen
+  FolderOpen,
+  AlertCircle
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -24,6 +25,11 @@ import {
 } from "./ui/collapsible";
 import PhotoCard from './PhotoDocumentation/PhotoCard';
 import ImagePreviewModal from './PhotoDocumentation/ImagePreviewModal';
+import { 
+  getFolderStructure, 
+  listFilesInFolder, 
+  isApiKeyConfigured 
+} from '../services/googleDriveService';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
