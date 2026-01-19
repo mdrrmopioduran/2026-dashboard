@@ -101,17 +101,51 @@ The dashboard includes 6 interactive module cards:
 ## 🚀 Getting Started
 
 ### Prerequisites
+- Python 3.11 or higher
 - Node.js 16.x or higher
 - Yarn package manager
+- MongoDB
 
-### Installation
+### Quick Start (Using Scripts)
+
+The easiest way to get started is using the automated scripts:
+
+```bash
+# Complete setup (install all dependencies)
+bash /app/setup.sh
+
+# Or use the shorter alias
+bash /app/install.sh
+
+# Start all services
+bash /app/start.sh
+
+# Development mode (install if needed + start)
+bash /app/dev.sh
+```
+
+### Manual Installation
+
+#### Backend Setup
+
+1. Navigate to the backend directory:
+```bash
+cd /app/backend
+```
+
+2. Install Python dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+#### Frontend Setup
 
 1. Navigate to the frontend directory:
 ```bash
 cd /app/frontend
 ```
 
-2. Install dependencies:
+2. Install Node dependencies:
 ```bash
 yarn install
 ```
@@ -121,25 +155,42 @@ yarn install
 yarn start
 ```
 
-4. Open your browser and visit:
-```
-http://localhost:3000
+### Service Management
+
+```bash
+# Restart all services
+sudo supervisorctl restart all
+
+# Check service status
+sudo supervisorctl status
+
+# View logs
+tail -f /var/log/supervisor/backend.*.log
+tail -f /var/log/supervisor/frontend.*.log
 ```
 
 ### Available Scripts
 
+See [README_SCRIPTS.md](/app/README_SCRIPTS.md) for complete documentation.
+
+**Quick reference:**
 ```bash
-# Start development server
-yarn start
+# Installation
+bash /app/install_backend.sh   # Install backend dependencies
+bash /app/install_frontend.sh  # Install frontend dependencies
+bash /app/setup.sh              # Install all dependencies
 
-# Build for production
-yarn build
+# Build
+bash /app/build_frontend.sh    # Build frontend for production
 
-# Run tests
-yarn test
+# Start
+bash /app/start.sh              # Start all services
+bash /app/dev.sh                # Development mode
 
-# Lint code
-yarn lint
+# Service Ports
+# Backend API: http://localhost:8001
+# Frontend: http://localhost:3000
+# MongoDB: mongodb://localhost:27017
 ```
 
 ## 🎨 Design System
