@@ -139,13 +139,7 @@ export const Dashboard = ({ onOpenModule }) => {
           <main className="flex-1 p-4 sm:p-6 lg:p-8">
             <div className="max-w-7xl mx-auto">
 
-              {/* Welcome Section with Gradient Text */}
-              <div className="mb-8 animate-fade-in-up">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
-                  <span className="gradient-text-rainbow">Welcome Back</span>
-                </h1>
-                <p className="text-lg text-muted-foreground">Manage your operations with powerful tools and insights</p>
-              </div>
+
 
               {/* Enhanced Quick Access Container with Glassmorphism */}
               <div className="mb-10 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
@@ -188,7 +182,7 @@ export const Dashboard = ({ onOpenModule }) => {
               {/* Module Grid Title */}
               <div className="mb-6 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                 <h2 className="text-3xl font-bold flex items-center gap-3">
-                  <span className="gradient-text">System Modules</span>
+                  <span className="gradient-text"></span>
                   <div className="h-1 flex-1 bg-gradient-to-r from-purple-500/50 via-pink-500/50 to-transparent rounded-full" />
                 </h2>
               </div>

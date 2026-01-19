@@ -14,11 +14,11 @@ export const Header = ({ isDarkMode, onToggleDarkMode }) => {
             {/* Glow effect behind logo */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-emerald-500 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-300" />
             
-            <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-white font-bold text-xl sm:text-2xl shadow-2xl bg-gradient-to-br from-blue-600 via-purple-600 to-emerald-500 transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
-              <span className="relative z-10">MDR</span>
-              {/* Shimmer effect */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </div>
+            <img
+              src="/logome.webp"
+              alt="MDRRMO Pio Duran Logo"
+              className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl object-cover transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6"
+            />
           </div>
           
           <div className="flex flex-col">
