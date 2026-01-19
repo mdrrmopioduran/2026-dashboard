@@ -112,11 +112,12 @@ const MapCategory = ({ categoryKey, categoryData, onSelectFolder, selectedFolder
     
     setLoading(true);
     try {
-      const response = await axios.get(`${BACKEND_URL}/api/maps/folders/${categoryData.folder_id}`);
-      setFolderStructure(response.data);
+      // Use direct Google Drive API
+      const structure = await getFolderStructure(categoryData.folder_id, 2);
+      setFolderStructure(structure);
     } catch (error) {
       console.error('Error fetching folder structure:', error);
-      toast.error(`Failed to load ${categoryData.name} structure`);
+      toast.error(`Failed to load ${categoryData.name} structure: ${error.message}`);
     } finally {
       setLoading(false);
     }
