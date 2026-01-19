@@ -33,11 +33,22 @@ const ContactDirectory = ({ onBack }) => {
   const fetchContacts = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(`${BACKEND_URL}/api/contact/items`);
-      setContacts(response.data);
+      
+      // Check if API key is configured
+      if (!isApiKeyConfigured()) {
+        toast.error('Google Sheets API key not configured. Please add REACT_APP_GOOGLE_SHEETS_API_KEY to .env file');
+        setContacts([]);
+        return;
+      }
+      
+      // Fetch directly from Google Sheets
+      const data = await getContactItems();
+      setContacts(data);
+      toast.success(`Loaded ${data.length} contacts from Google Sheets!`);
     } catch (error) {
       console.error('Error fetching contacts:', error);
-      toast.error('Failed to load contacts');
+      toast.error(error.message || 'Failed to load contacts from Google Sheets');
+      setContacts([]);
     } finally {
       setIsLoading(false);
     }
