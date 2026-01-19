@@ -62,12 +62,24 @@ The dashboard includes 6 interactive module cards:
 
 ## 🛠️ Technology Stack
 
+### Backend
+- **FastAPI** - Modern Python web framework
+- **Motor** - Async MongoDB driver
+- **Python 3.11** - Latest Python features
+- **Google API Client** - Google Drive integration
+- **Uvicorn** - ASGI server
+
 ### Frontend
-- **React 18.x** - Modern UI library with hooks
+- **React 19.x** - Modern UI library with hooks
 - **Tailwind CSS 3.x** - Utility-first CSS framework
 - **Shadcn/UI** - High-quality React components
+- **Leaflet** - Interactive map library
+- **React Leaflet** - React components for Leaflet
 - **Lucide React** - Beautiful icon library
 - **Sonner** - Toast notifications
+
+### Database
+- **MongoDB** - NoSQL database for flexible data storage
 
 ### Design System
 - **HSL Color Tokens** - Semantic color system for light/dark modes
