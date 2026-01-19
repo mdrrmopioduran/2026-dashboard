@@ -8,7 +8,13 @@ A beautiful, modern frontend prototype for a file inventory and management syste
 
 ## 📋 Overview
 
-This is a **frontend-only prototype** showcasing a modern, responsive dashboard for the MDRRMO Pio Duran File Inventory & Management System. The application features stunning UI/UX with animated gradients, glassmorphism effects, and smooth interactions.
+This is a **full-stack application** featuring a modern, responsive dashboard for the MDRRMO Pio Duran File Inventory & Management System. The application features stunning UI/UX with animated gradients, glassmorphism effects, smooth interactions, and robust backend API integration with MongoDB.
+
+## ⚡ Quick Links
+
+- **[Installation Scripts Documentation](README_SCRIPTS.md)** - Complete guide to setup scripts
+- **[Interactive Map Documentation](MAPS_MODULE_DOCUMENTATION.md)** - Leaflet/OpenStreetMap integration
+- **[Design Enhancements](DESIGN_ENHANCEMENTS.md)** - UI/UX improvements
 
 ## ✨ Features
 
