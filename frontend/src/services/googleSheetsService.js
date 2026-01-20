@@ -164,12 +164,26 @@ export const getContactItems = async () => {
 export const getEventItems = async () => {
   try {
     const data = await getSheetData('event');
-    return data.map(item => ({
-      ...item,
-      // Parse dates if available
-      startDate: item.startDate || item.date || '',
-      endDate: item.endDate || item.date || ''
-    }));
+    return data.map(item => {
+      // Map Google Sheets columns to expected field names
+      const eventTask = item['Event/Task'] || item.eventtask || item.EventTask || item.taskName || '';
+      const date = item['Date'] || item.date || '';
+      const time = item['Time'] || item.time || '';
+      const location = item['Location'] || item.location || '';
+      const status = item['Status'] || item.status || 'Upcoming';
+      
+      return {
+        ...item,
+        eventTask,
+        date,
+        time,
+        location,
+        status,
+        // Parse dates if available
+        startDate: item.startDate || date || '',
+        endDate: item.endDate || date || ''
+      };
+    });
   } catch (error) {
     console.error('Error fetching event items:', error);
     throw error;
