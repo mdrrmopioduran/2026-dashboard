@@ -225,13 +225,33 @@ The dashboard includes 7 interactive module cards:
 
 ### Prerequisites
 - Python 3.11 or higher
-- Node.js 16.x or higher
-- Yarn package manager
+- Node.js 14.x or higher
+- Yarn package manager (1.22+)
 - MongoDB
 
-### Quick Start (Using Scripts)
+### Quick Start (Using Yarn Scripts)
 
-The easiest way to get started is using the automated scripts:
+The easiest way to get started is using the yarn scripts:
+
+```bash
+# Navigate to project root
+cd /app
+
+# Install all dependencies (frontend + backend)
+yarn install
+
+# Start all services
+yarn start
+
+# Check service status
+yarn status
+
+# View logs
+yarn logs:backend    # Backend logs
+yarn logs:frontend   # Frontend logs
+```
+
+### Alternative: Using Shell Scripts
 
 ```bash
 # Complete setup (install all dependencies)
@@ -246,6 +266,8 @@ bash /app/start.sh
 # Development mode (install if needed + start)
 bash /app/dev.sh
 ```
+
+See [PACKAGE_SCRIPTS_GUIDE.md](./PACKAGE_SCRIPTS_GUIDE.md) for all available commands.
 
 ### Manual Installation
 
