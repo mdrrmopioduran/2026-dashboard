@@ -1,20 +1,62 @@
 # MDRRMO Pio Duran - File Inventory & Management System
 
-A beautiful, modern frontend prototype for a file inventory and management system dashboard.
+A beautiful, modern full-stack application for file inventory and management system with Google Drive/Sheets integration, interactive maps, and 360° panoramic gallery.
 
-![Dashboard Preview](https://img.shields.io/badge/Status-Frontend%20Prototype-blue)
-![React](https://img.shields.io/badge/React-18.x-61dafb)
+![Dashboard Preview](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
+![React](https://img.shields.io/badge/React-19.x-61dafb)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.110-009688)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.x-38bdf8)
+![MongoDB](https://img.shields.io/badge/MongoDB-4.5-47A248)
 
 ## 📋 Overview
 
-This is a **full-stack application** featuring a modern, responsive dashboard for the MDRRMO Pio Duran File Inventory & Management System. The application features stunning UI/UX with animated gradients, glassmorphism effects, smooth interactions, and robust backend API integration with MongoDB.
+This is a **full-stack application** featuring a modern, responsive dashboard for the MDRRMO Pio Duran File Inventory & Management System. The application features stunning UI/UX with animated gradients, glassmorphism effects, smooth interactions, and robust backend API integration with MongoDB, Google Drive, and Google Sheets.
 
-## ⚡ Quick Links
+## 🚀 Quick Start
 
-- **[Installation Scripts Documentation](README_SCRIPTS.md)** - Complete guide to setup scripts
+```bash
+# Install all dependencies
+yarn install
+
+# Start all services
+yarn start
+
+# Check status
+yarn status
+
+# Build for production
+yarn build
+```
+
+📖 **Full Guide**: [PACKAGE_SCRIPTS_GUIDE.md](./PACKAGE_SCRIPTS_GUIDE.md) | ⚡ **Quick Reference**: [QUICK_START.md](./QUICK_START.md)
+
+## 📁 Project Structure
+
+```
+/app/
+├── frontend/              # React application
+│   ├── src/              # Source code
+│   │   ├── components/   # React components
+│   │   ├── services/     # API services (Google Drive/Sheets)
+│   │   └── App.js        # Main app
+│   ├── build/            # Production build (generated)
+│   └── package.json      # Frontend dependencies
+├── backend/              # FastAPI server
+│   ├── server.py         # Main server
+│   ├── requirements.txt  # Python dependencies
+│   └── .env             # Backend config
+├── package.json          # Root scripts
+└── tests/               # Test files
+```
+
+## ⚡ Key Links
+
+- **[Package Scripts Guide](PACKAGE_SCRIPTS_GUIDE.md)** - All yarn commands explained
+- **[Quick Start Guide](QUICK_START.md)** - Get started in 2 minutes
 - **[Interactive Map Documentation](MAPS_MODULE_DOCUMENTATION.md)** - Leaflet/OpenStreetMap integration
+- **[Panorama 360° Guide](PANORAMA_360_ENHANCEMENT.md)** - Immersive panoramic viewer
 - **[Design Enhancements](DESIGN_ENHANCEMENTS.md)** - UI/UX improvements
+- **[Frontend API Setup](DIRECT_FRONTEND_API_SETUP.md)** - Google Drive/Sheets integration
 
 ## ✨ Features
 
