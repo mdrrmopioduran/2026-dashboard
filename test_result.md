@@ -317,15 +317,18 @@ frontend:
 
   - task: "Supply Inventory - Direct Google Sheets Integration"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/components/SupplyInventory.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Updated Supply Inventory to use direct Google Sheets API via googleSheetsService.js. Replaced axios backend calls with getSupplyItems(). Added connection status banner (green=connected, amber=not configured). Implements read-only access with API key. Write operations show info toast. Data fetched from 'supply' tab in Google Sheet ID 1UtT9t2LZ5NEc-wbGv44mDeDjWLxOLBQHA5yy6jiLc7E. Module shows stats for total items, low stock, and out of stock items."
+      - working: true
+        agent: "main"
+        comment: "Fixed data mapping issue. Google Sheets uses 'Item Name' (with space and capital letters) but code expected 'itemName'. Updated getSupplyItems() to properly map column names: 'Item Name' -> itemName, 'Category' -> category, 'Quantity' -> quantity, 'Location' -> location. Now correctly displays all supply data including item names, categories, quantities, and locations."
 
   - task: "Contact Directory - Direct Google Sheets Integration"
     implemented: true
