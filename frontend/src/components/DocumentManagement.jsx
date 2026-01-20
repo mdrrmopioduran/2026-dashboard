@@ -24,8 +24,8 @@ import {
 import FolderTreeItem from './DocumentManagement/FolderTreeItem';
 import FileCard from './DocumentManagement/FileCard';
 import { getFolderStructure, listFilesInFolder, isApiKeyConfigured } from '../services/googleDriveService';
-// Default Document Management folder ID - update this with your actual folder ID
-const DOCUMENTS_ROOT_FOLDER_ID = '1SiOmUx8UZN5gdABHxHY2FI4AOz9Jney1';
+// Document Management folder ID
+const DOCUMENTS_ROOT_FOLDER_ID = '15_xiFeXu_vdIe2CYrjGaRCAho2OqhGvo';
 
 // Loading skeleton
 const FileCardSkeleton = () => (
