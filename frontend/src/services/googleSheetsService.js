@@ -52,9 +52,16 @@ const parseSheetData = (values) => {
   const rows = values.slice(1);
   
   return rows.map((row, index) => {
-    const obj = { _rowIndex: index + 2 }; // +2 because: +1 for header row, +1 for 1-based indexing
+    const obj = { row_index: index + 2 }; // +2 because: +1 for header row, +1 for 1-based indexing
     headers.forEach((header, i) => {
+      // Store both original header and normalized version
       obj[header] = row[i] || '';
+      
+      // Create normalized lowercase version
+      const normalizedKey = header.toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (normalizedKey && normalizedKey !== header) {
+        obj[normalizedKey] = row[i] || '';
+      }
     });
     return obj;
   });
