@@ -260,7 +260,7 @@ const ContactDirectory = ({ onBack }) => {
                             <div className="relative group-hover:scale-110 transition-transform duration-300">
                               <div className="absolute inset-0 bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 rounded-full animate-pulse"></div>
                               <div className="relative h-14 w-14 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white font-bold text-xl shadow-lg m-0.5">
-                                {contact.name.charAt(0).toUpperCase()}
+                                {contact.name ? contact.name.charAt(0).toUpperCase() : '?'}
                               </div>
                               <div className="absolute -top-1 -right-1 h-4 w-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center animate-bounce">
                                 <Star className="h-2.5 w-2.5 text-white fill-white" />
