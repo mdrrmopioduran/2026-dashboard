@@ -157,8 +157,8 @@ const CalendarManagement = ({ onBack }) => {
 
   const filteredEvents = events.filter(event => {
     const matchesSearch = 
-      event.eventTask.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      event.location.toLowerCase().includes(searchQuery.toLowerCase());
+      (event.eventTask || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (event.location || '').toLowerCase().includes(searchQuery.toLowerCase());
     
     const matchesFilter = filterStatus === 'All' || event.status === filterStatus;
     
