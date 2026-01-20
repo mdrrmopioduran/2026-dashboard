@@ -127,55 +127,222 @@ const ImageCard = ({ image, onClick }) => {
   );
 };
 
-// Image Preview Modal
-const ImagePreviewModal = ({ image, onClose }) => {
+// 360° Panorama Viewer Modal
+const PanoramaViewerModal = ({ image, onClose }) => {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [autoRotate, setAutoRotate] = useState(-2);
+  const [showControls, setShowControls] = useState(true);
+  const containerRef = useRef(null);
+  const pannellumRef = useRef(null);
+
   if (!image) return null;
+
+  // Get high-resolution image URL from Google Drive
+  const imageUrl = `https://drive.google.com/uc?export=view&id=${image.id}`;
+
+  // Toggle fullscreen
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      containerRef.current?.requestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+
+  // Handle fullscreen change
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
+  // Keyboard controls
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (e.key === 'Escape' && !document.fullscreenElement) {
+        onClose();
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullscreen();
+      } else if (e.key === 'r' || e.key === 'R') {
+        setAutoRotate(prev => prev === 0 ? -2 : 0);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [onClose]);
+
+  // Auto-hide controls
+  useEffect(() => {
+    let timer;
+    const resetTimer = () => {
+      setShowControls(true);
+      clearTimeout(timer);
+      timer = setTimeout(() => setShowControls(false), 3000);
+    };
+
+    resetTimer();
+    window.addEventListener('mousemove', resetTimer);
+    window.addEventListener('touchstart', resetTimer);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('mousemove', resetTimer);
+      window.removeEventListener('touchstart', resetTimer);
+    };
+  }, []);
 
   return (
     <div 
-      className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center p-4"
-      onClick={onClose}
+      ref={containerRef}
+      className="fixed inset-0 z-50 bg-black"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
     >
-      <div className="relative max-w-7xl max-h-[90vh] w-full">
-        {/* Close button */}
-        <Button
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10 bg-white/10 hover:bg-white/20 text-white rounded-full w-10 h-10 p-0"
-        >
-          <X className="w-6 h-6" />
-        </Button>
+      {/* 360° Panorama Viewer */}
+      <div className="w-full h-full">
+        <Pannellum
+          ref={pannellumRef}
+          width="100%"
+          height="100%"
+          image={imageUrl}
+          pitch={0}
+          yaw={180}
+          hfov={110}
+          autoLoad
+          autoRotate={autoRotate}
+          showZoomCtrl={false}
+          showFullscreenCtrl={false}
+          mouseZoom={true}
+          draggable={true}
+          keyboardZoom={true}
+          friction={0.15}
+          compass={true}
+          orientationOnByDefault={false}
+          onLoad={() => {
+            toast.success('360° Panorama loaded!');
+          }}
+          onError={(err) => {
+            console.error('Panorama load error:', err);
+            toast.error('Failed to load 360° view');
+          }}
+        />
+      </div>
 
-        {/* Image */}
-        <div className="flex items-center justify-center h-full">
-          <img 
-            src={`https://drive.google.com/thumbnail?id=${image.id}&sz=w1600`}
-            alt={image.name}
-            className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          />
+      {/* Control Overlay */}
+      <div 
+        className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${
+          showControls ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        {/* Top Bar */}
+        <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/80 to-transparent p-6 pointer-events-auto">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Button
+                onClick={onClose}
+                className="bg-white/10 hover:bg-white/20 text-white rounded-full w-12 h-12 p-0 backdrop-blur-sm"
+                title="Close (ESC)"
+              >
+                <X className="w-6 h-6" />
+              </Button>
+              <div>
+                <h3 className="text-white font-semibold text-lg">{image.name}</h3>
+                <div className="flex gap-4 text-sm text-gray-300 mt-1">
+                  {image.imageMediaMetadata && (
+                    <span className="flex items-center gap-1">
+                      <Maximize2 className="w-3 h-3" />
+                      {image.imageMediaMetadata.width} × {image.imageMediaMetadata.height}
+                    </span>
+                  )}
+                  <span>{(image.size / 1024 / 1024).toFixed(2)} MB</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-2">
+              <Button
+                onClick={() => window.open(image.webViewLink, '_blank')}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white"
+                title="Download"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Download
+              </Button>
+            </div>
+          </div>
         </div>
 
-        {/* Image info overlay */}
-        <div 
-          className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 rounded-b-lg"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <h3 className="text-white font-semibold text-lg mb-2">{image.name}</h3>
-          <div className="flex gap-4 text-sm text-gray-300">
-            {image.imageMediaMetadata && (
-              <span>{image.imageMediaMetadata.width} × {image.imageMediaMetadata.height}</span>
-            )}
-            <span>{(image.size / 1024 / 1024).toFixed(2)} MB</span>
-            <span>{new Date(image.modifiedTime).toLocaleDateString()}</span>
-          </div>
-          <div className="flex gap-2 mt-4">
-            <Button
-              onClick={() => window.open(image.webViewLink, '_blank')}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Download Original
-            </Button>
+        {/* Side Control Panel */}
+        <div className="absolute right-6 top-1/2 transform -translate-y-1/2 flex flex-col gap-3 pointer-events-auto">
+          <Button
+            onClick={toggleFullscreen}
+            className="bg-white/10 hover:bg-white/20 text-white rounded-full w-14 h-14 p-0 backdrop-blur-sm"
+            title={isFullscreen ? 'Exit Fullscreen (F)' : 'Fullscreen (F)'}
+          >
+            <Maximize className="w-6 h-6" />
+          </Button>
+
+          <Button
+            onClick={() => setAutoRotate(prev => prev === 0 ? -2 : 0)}
+            className={`rounded-full w-14 h-14 p-0 backdrop-blur-sm transition-all ${
+              autoRotate !== 0 
+                ? 'bg-indigo-600 hover:bg-indigo-700 text-white' 
+                : 'bg-white/10 hover:bg-white/20 text-white'
+            }`}
+            title={autoRotate !== 0 ? 'Stop Auto-Rotate (R)' : 'Auto-Rotate (R)'}
+          >
+            <RotateCw className={`w-6 h-6 ${autoRotate !== 0 ? 'animate-spin' : ''}`} style={autoRotate !== 0 ? {animationDuration: '4s'} : {}} />
+          </Button>
+
+          <Button
+            onClick={() => {
+              // Reset view to default
+              if (pannellumRef.current) {
+                pannellumRef.current.getViewer()?.setPitch(0);
+                pannellumRef.current.getViewer()?.setYaw(180);
+                pannellumRef.current.getViewer()?.setHfov(110);
+              }
+              toast.success('View reset');
+            }}
+            className="bg-white/10 hover:bg-white/20 text-white rounded-full w-14 h-14 p-0 backdrop-blur-sm"
+            title="Reset View"
+          >
+            <Compass className="w-6 h-6" />
+          </Button>
+        </div>
+
+        {/* Bottom Instruction Bar */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 pointer-events-auto">
+          <div className="flex items-center justify-center gap-8 text-white/80 text-sm">
+            <div className="flex items-center gap-2">
+              <Move className="w-4 h-4" />
+              <span>Drag to look around</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <ZoomIn className="w-4 h-4" />
+              <span>Scroll to zoom</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <kbd className="px-2 py-1 bg-white/10 rounded">F</kbd>
+              <span>Fullscreen</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <kbd className="px-2 py-1 bg-white/10 rounded">R</kbd>
+              <span>Auto-rotate</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <kbd className="px-2 py-1 bg-white/10 rounded">ESC</kbd>
+              <span>Close</span>
+            </div>
           </div>
         </div>
       </div>
