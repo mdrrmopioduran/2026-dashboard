@@ -132,11 +132,14 @@ const PanoramaViewerModal = ({ image, onClose }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [autoRotate, setAutoRotate] = useState(-2);
   const [showControls, setShowControls] = useState(true);
+  const [imageLoading, setImageLoading] = useState(true);
+  const [imageError, setImageError] = useState(null);
   const containerRef = useRef(null);
   const pannellumRef = useRef(null);
 
-  // Get high-resolution image URL from Google Drive
-  const imageUrl = image ? `https://drive.google.com/uc?export=view&id=${image.id}` : '';
+  // Get high-resolution image URL from Google Drive with CORS proxy
+  // Using Google Drive's direct download URL format
+  const imageUrl = image ? `https://drive.google.com/uc?export=download&id=${image.id}` : '';
 
   // Toggle fullscreen
   const toggleFullscreen = () => {
