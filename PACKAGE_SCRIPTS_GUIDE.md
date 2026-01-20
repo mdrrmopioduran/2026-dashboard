@@ -43,6 +43,7 @@ Install only backend dependencies.
 ```bash
 yarn install:backend
 ```
+**Note**: This script uses a special installation script (`/app/install_backend_fixed.sh`) that properly installs `emergentintegrations` from the Emergent repository. See [EMERGENT_INTEGRATIONS_FIX.md](./EMERGENT_INTEGRATIONS_FIX.md) for details.
 
 ---
 
