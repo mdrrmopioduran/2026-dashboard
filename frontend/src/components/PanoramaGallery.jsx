@@ -134,12 +134,27 @@ const PanoramaViewerModal = ({ image, onClose }) => {
   const [showControls, setShowControls] = useState(true);
   const [imageLoading, setImageLoading] = useState(true);
   const [imageError, setImageError] = useState(null);
+  const [urlAttempt, setUrlAttempt] = useState(0);
   const containerRef = useRef(null);
   const pannellumRef = useRef(null);
 
-  // Get high-resolution image URL from Google Drive with CORS proxy
-  // Using Google Drive's direct download URL format
-  const imageUrl = image ? `https://drive.google.com/uc?export=download&id=${image.id}` : '';
+  // Multiple URL formats to try for Google Drive images
+  const getImageUrl = () => {
+    if (!image) return '';
+    
+    const urls = [
+      // Try direct download first
+      `https://drive.google.com/uc?export=download&id=${image.id}`,
+      // Try with CORS proxy
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://drive.google.com/uc?export=download&id=${image.id}`)}`,
+      // Try thumbnail at max size
+      `https://drive.google.com/thumbnail?id=${image.id}&sz=w2000`,
+    ];
+    
+    return urls[urlAttempt] || urls[0];
+  };
+
+  const imageUrl = getImageUrl();
 
   // Toggle fullscreen
   const toggleFullscreen = () => {
