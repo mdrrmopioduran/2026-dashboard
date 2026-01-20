@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Image as ImageIcon, 
   Search, 
@@ -9,8 +9,15 @@ import {
   Maximize2,
   Download,
   Eye,
-  AlertCircle
+  AlertCircle,
+  Maximize,
+  RotateCw,
+  ZoomIn,
+  ZoomOut,
+  Move,
+  Compass
 } from 'lucide-react';
+import { Pannellum } from 'react-pannellum';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card, CardContent } from './ui/card';
