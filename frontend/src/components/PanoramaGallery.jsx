@@ -302,29 +302,22 @@ const PanoramaViewerModal = ({ image, onClose }) => {
             </div>
           </div>
         ) : (
-          <ReactPannellum
-            id="panorama-viewer"
-            sceneId="main-scene"
-            imageSource={imageUrl}
-            type="equirectangular"
-            pitch={0}
-            yaw={180}
-            hfov={110}
-            autoLoad={true}
-            autoRotate={autoRotate}
-            showZoomCtrl={false}
-            showFullscreenCtrl={false}
-            mouseZoom={true}
-            draggable={true}
-            keyboardZoom={true}
-            friction={0.15}
-            compass={true}
-            orientationOnByDefault={false}
-            style={{
-              width: '100%',
-              height: '100%',
-            }}
-          />
+          <div key={urlAttempt} className="w-full h-full">
+            <ReactPannellum
+              id={`panorama-viewer-${urlAttempt}`}
+              sceneId="main-scene"
+              imageSource={imageUrl}
+              config={{
+                ...config,
+                onLoad: handlePanoramaLoad,
+                onError: handlePanoramaError
+              }}
+              style={{
+                width: '100%',
+                height: '100%',
+              }}
+            />
+          </div>
         )}
       </div>
 
