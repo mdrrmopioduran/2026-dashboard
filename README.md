@@ -104,35 +104,39 @@ yarn clean:backend       # Clean backend cache
 - **Smooth Animations** - Hover effects, transitions, and micro-interactions throughout
 
 ### 📦 Modules
-The dashboard includes 6 interactive module cards:
+The dashboard includes 7 interactive module cards:
 
-1. **Supply Inventory** (Cyan)
-   - Track items
-   - Stock levels
-   - Categories
+1. **Supply Inventory** (Cyan) - Google Sheets Integration
+   - Track items and stock levels
+   - Categories and locations
+   - Print reports
+   - Direct Google Sheets API connection
 
-2. **Contact Directory** (Green)
-   - Staff directory
-   - Departments
-   - Quick search
+2. **Contact Directory** (Green) - Google Sheets Integration
+   - Staff directory with departments
+   - Quick search and filters
+   - Print contact lists
+   - Direct Google Sheets API connection
 
-3. **Calendar Management** (Purple)
-   - Event calendar
-   - Schedules
-   - Planning
+3. **Calendar Management** (Purple) - Google Sheets Integration
+   - Event calendar with timeline view
+   - Status tracking (Upcoming, In Progress, Completed)
+   - Countdown badges
+   - Direct Google Sheets API connection
 
-4. **Document Management** (Orange)
-   - File access
-   - Offline support
-   - Organization
+4. **Document Management** (Orange) - Google Drive Integration
+   - File browser with folder structure
+   - Document preview and download
+   - Search functionality
+   - Direct Google Drive API access
 
-5. **Photo Documentation** (Pink)
-   - Photo gallery
-   - Media files
-   - Documentation
+5. **Photo Documentation** (Pink) - Google Drive Integration
+   - Photo gallery with responsive grid
+   - Image preview and download
+   - Album organization
+   - Direct Google Drive API access
 
-6. **Interactive Map** (Teal)
-   - Interactive Leaflet/OpenStreetMap integration
+6. **Interactive Map** (Teal) - Leaflet/OpenStreetMap
    - Drawing tools (markers, polylines, polygons, circles)
    - Measurement tools (distance, area calculation)
    - Search and geocoding
@@ -140,6 +144,14 @@ The dashboard includes 6 interactive module cards:
    - Multiple base layers (OpenStreetMap, Satellite, Topographic)
    - Fullscreen mode
    - Coordinate display
+
+7. **Panorama/650 Gallery** (Indigo) - 360° Viewer
+   - 360-degree panoramic image viewer
+   - Interactive WebGL rendering
+   - Auto-rotation mode
+   - Fullscreen support
+   - Keyboard shortcuts and touch controls
+   - Google Drive integration
 
 ### 🎯 Interactive Features
 - **Module Cards** - Clickable cards with hover effects and toast notifications
