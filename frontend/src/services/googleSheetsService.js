@@ -142,7 +142,15 @@ export const getSupplyItems = async () => {
 export const getContactItems = async () => {
   try {
     const data = await getSheetData('contact');
-    return data;
+    return data.map(item => ({
+      ...item,
+      // Map Google Sheets columns to expected field names (lowercase)
+      name: item['Name'] || item.name || '',
+      position: item['Position'] || item.position || '',
+      department: item['Department'] || item.department || '',
+      phone: item['Phone'] || item.phone || '',
+      email: item['Email'] || item.email || 'N/A'
+    }));
   } catch (error) {
     console.error('Error fetching contact items:', error);
     throw error;
