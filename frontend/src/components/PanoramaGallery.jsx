@@ -203,6 +203,7 @@ const PanoramaViewerModal = ({ image, onClose }) => {
   if (!image) return null;
 
   const config = {
+    type: 'equirectangular',
     autoLoad: true,
     autoRotate: autoRotate,
     showZoomCtrl: false,
@@ -216,6 +217,16 @@ const PanoramaViewerModal = ({ image, onClose }) => {
     pitch: 0,
     yaw: 180,
     hfov: 110,
+    onLoad: () => {
+      setImageLoading(false);
+      toast.success('360° Panorama loaded!');
+    },
+    onError: (err) => {
+      setImageLoading(false);
+      setImageError(err);
+      console.error('Panorama load error:', err);
+      toast.error('Failed to load 360° view. Try downloading the image instead.');
+    }
   };
 
   return (
