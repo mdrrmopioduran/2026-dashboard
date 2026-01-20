@@ -192,6 +192,7 @@ const DocumentManagement = ({ onBack }) => {
 
   useEffect(() => {
     fetchFolderStructure();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
