@@ -219,6 +219,37 @@ const MapManagement = ({ onBack }) => {
     setPreviewModalOpen(true);
   };
 
+  // Handle download
+  const handleDownload = (link, fileName) => {
+    if (link) {
+      const a = document.createElement('a');
+      a.href = link;
+      a.download = fileName;
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      toast.success('Download started');
+    } else {
+      toast.error('Download link not available');
+    }
+  };
+
+  // Handle share
+  const handleShare = async (mapId) => {
+    try {
+      // Create shareable Google Drive link
+      const shareLink = `https://drive.google.com/file/d/${mapId}/view?usp=sharing`;
+      
+      // Copy to clipboard
+      await navigator.clipboard.writeText(shareLink);
+      toast.success('Share link copied to clipboard!');
+    } catch (error) {
+      console.error('Error creating share link:', error);
+      toast.error('Failed to create share link');
+    }
+  };
+
   // Filter maps based on search
   const filteredMaps = useMemo(() => {
     if (!searchQuery.trim()) return maps;
