@@ -347,15 +347,18 @@ frontend:
 
   - task: "Calendar Management - Direct Google Sheets Integration"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/components/CalendarManagement.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Updated Calendar Management to use direct Google Sheets API via googleSheetsService.js. Replaced axios backend calls with getEventItems(). Added connection status banner. Implements read-only access with API key. Write operations show info toast. Data fetched from 'event' tab in Google Sheet. Features timeline visualization, status-based filtering, and countdown badges for upcoming events."
+      - working: true
+        agent: "main"
+        comment: "Fixed data mapping issue. Google Sheets uses 'Event/Task' column name but code expected 'eventTask'. Updated getEventItems() to properly map columns: 'Event/Task' -> eventTask, 'Date' -> date, 'Time' -> time, 'Location' -> location, 'Status' -> status. Now correctly displays all event details with proper dates and times in timeline view."
 
   - task: "Google Sheets Service - Frontend API Client"
     implemented: true
