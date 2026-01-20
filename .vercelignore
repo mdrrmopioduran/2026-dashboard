@@ -1,0 +1,68 @@
+# Backend files (not needed for frontend deployment)
+backend/
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Scripts (environment-specific)
+*.sh
+install_*.sh
+setup.sh
+dev.sh
+start.sh
+
+# Local files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+service_account.json
+
+# Logs
+*.log
+/var/
+
+# Tests
+tests/
+*.test.js
+*.spec.js
+
+# Documentation (optional - uncomment if you want to exclude)
+# *.md
+# docs/
+
+# Database
+*.db
+*.sqlite
+
+# Node
+node_modules/
+.pnp
+.pnp.js
+
+# Build artifacts
+build/
+dist/
+.next/
+out/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+.cache/
+coverage/

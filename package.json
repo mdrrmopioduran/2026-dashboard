@@ -7,11 +7,11 @@
     "frontend"
   ],
   "scripts": {
-    "install": "yarn install:all",
+    "install": "yarn install:frontend",
     "install:all": "yarn install:frontend && yarn install:backend",
     "install:frontend": "cd frontend && yarn install",
     "install:backend": "bash /app/install_backend_fixed.sh",
-    "build": "yarn build:frontend",
+    "build": "cd frontend && yarn build",
     "build:frontend": "cd frontend && yarn build",
     "start": "sudo supervisorctl restart all",
     "start:frontend": "sudo supervisorctl restart frontend",

@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "name": "mdrrmo-pio-duran-frontend",
+  "buildCommand": "cd frontend && yarn install && yarn build",
+  "outputDirectory": "frontend/build",
+  "installCommand": "cd frontend && yarn install",
+  "framework": "create-react-app",
+  "env": {
+    "REACT_APP_BACKEND_URL": "@react_app_backend_url",
+    "REACT_APP_GOOGLE_DRIVE_API_KEY": "@react_app_google_drive_api_key",
+    "REACT_APP_GOOGLE_SHEETS_API_KEY": "@react_app_google_sheets_api_key",
+    "REACT_APP_GOOGLE_SHEET_ID": "@react_app_google_sheet_id"
+  },
+  "build": {
+    "env": {
+      "REACT_APP_BACKEND_URL": "@react_app_backend_url",
+      "REACT_APP_GOOGLE_DRIVE_API_KEY": "@react_app_google_drive_api_key",
+      "REACT_APP_GOOGLE_SHEETS_API_KEY": "@react_app_google_sheets_api_key",
+      "REACT_APP_GOOGLE_SHEET_ID": "@react_app_google_sheet_id"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}
