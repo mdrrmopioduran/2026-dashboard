@@ -541,9 +541,9 @@ const PanoramaGallery = ({ onBack }) => {
         )}
       </div>
 
-      {/* Image Preview Modal */}
+      {/* Image Preview Modal - Now with 360° Panorama Viewer */}
       {previewImage && (
-        <ImagePreviewModal 
+        <PanoramaViewerModal 
           image={previewImage} 
           onClose={() => setPreviewImage(null)} 
         />
