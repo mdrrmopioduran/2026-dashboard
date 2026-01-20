@@ -292,6 +292,15 @@ const SupplyInventory = ({ onBack }) => {
                   />
                 </div>
                 <Button
+                  onClick={handlePrint}
+                  variant="outline"
+                  className="border-2 border-cyan-400 text-cyan-600 hover:bg-cyan-50 dark:hover:bg-cyan-950 hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105 h-12 px-6 print:hidden"
+                  data-testid="print-supply-btn"
+                >
+                  <Printer className="h-5 w-5 mr-2" />
+                  Print Report
+                </Button>
+                <Button
                   onClick={() => handleOpenDialog()}
                   className="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 hover:from-cyan-500 hover:via-blue-600 hover:to-indigo-700 text-white shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105 h-12 px-6"
                   data-testid="add-supply-btn"
