@@ -14,27 +14,39 @@ Install Command: cd frontend && yarn install
 
 ### Environment Variables (Add ALL of these)
 
-Click "Add" for each variable and check ALL environment boxes (Production, Preview, Development):
+**IMPORTANT**: Add these in **Vercel Dashboard → Settings → Environment Variables**, NOT in vercel.json
+
+For each variable:
+1. Click "Add New"
+2. Enter Name and Value (see below)
+3. Check ALL environment boxes: ✅ Production ✅ Preview ✅ Development
+4. Click "Save"
 
 ```
+Variable 1:
 Name: REACT_APP_BACKEND_URL
 Value: https://repo-setup-39.preview.emergentagent.com
 ```
 
 ```
+Variable 2:
 Name: REACT_APP_GOOGLE_DRIVE_API_KEY
 Value: AIzaSyCDcthLGNPlbMr4AFzuK5tl0CMTzsQI9EI
 ```
 
 ```
+Variable 3:
 Name: REACT_APP_GOOGLE_SHEETS_API_KEY
 Value: AIzaSyBTZH_0wi2svXNNQX696bA2Knj_7VXZ4CM
 ```
 
 ```
+Variable 4:
 Name: REACT_APP_GOOGLE_SHEET_ID
 Value: 1UtT9t2LZ5NEc-wbGv44mDeDjWLxOLBQHA5yy6jiLc7E
 ```
+
+📖 **Detailed guide**: See `VERCEL_ENV_VARIABLES_GUIDE.md` for step-by-step instructions with screenshots
 
 ---
 
